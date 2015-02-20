@@ -1,4 +1,54 @@
-APK download: http://sourceforge.net/projects/synergyandroid/files/
+Descarga del APK: bin/Synergy.apk
+
+-----------------------------------------------------------------------
+Introducción
+-----------------------------------------------------------------------
+SynergyAndroid es un cliente Synergy para la plataforma Android.
+Ver http://synergy-project.org para detalles. Actualmente en fase de
+desarrollo.
+Los nuevos desarrolladores son bienvenidos a unirse.
+
+-----------------------------------------------------------------------
+Pre-requisitos
+-----------------------------------------------------------------------
+Nosotros utilizamos el módulo uinput para la manipulación de periféricos, 
+por lo que debemos tener un Android Roteado con acceso a /dev/uinput 
+(Como Cyanogenmod). Eso significa que tu android debe tener el archivo
+/dev/uinput y debe ser RW (con permisos de escritura).
+
+-----------------------------------------------------------------------
+Armando el Proyecto
+-----------------------------------------------------------------------
+SynergyAndroid utilizar "jni" para acceder al archivo /dev/uinput, por
+lo que primero debe compilar el código fuente jni por NDK. Y luego
+podrá construir y depurar el proyecto en eclipse.
+
+
+    $./build_jni.sh <NDK Base>
+
+Puede descargar el NDK desde:
+https://developer.android.com/tools/sdk/ndk/index.html
+
+A continuación, simplemente importar el proyecto en Eclipse.
+
+-------------------------------------------------------------------------
+Ejecución 
+-------------------------------------------------------------------------
+Recuerde: Debe compilar el código jni y luego dar permisos de escritura
+a /dev/uinput.
+
+Entonces puede instalarlo:
+OPCIÓN 1. Ejecutarlo desde Eclipse.
+OPCIÓN 2. Instalarlo con RUTA_DEL_PROYECTO/bin/Synergy.apk al emulador/movil.
+            $adb install RUTA_DEL_PROYECTO/bin/Synergy.apk
+OPCIÓN 3. Copiar y pegar en el dispositivo e instalarlo normalmente.
+
+
+
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+APK download: bin/Synergy.apk
 
 Introduction
 -----------------------------------------------------------------------
