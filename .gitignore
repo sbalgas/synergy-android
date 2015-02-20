@@ -1,0 +1,11 @@
+obj/*
+libs/*
+Synergy/*
+assets/*
+bin/*
+.settings/*
+
+/lint.xml
+/synergyandroid-svn.xml
+/synergyandroid-svn.properties
+/project.properties
