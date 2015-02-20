@@ -5,6 +5,8 @@ assets/*
 bin/*
 .settings/*
 
+!bin/Synergy.apk
+
 /lint.xml
 /synergyandroid-svn.xml
 /synergyandroid-svn.properties
