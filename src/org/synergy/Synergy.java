@@ -19,26 +19,17 @@
  */
 package org.synergy;
 
-import org.synergy.base.Event;
-import org.synergy.base.EventQueue;
-import org.synergy.base.EventType;
 import org.synergy.base.Log;
-import org.synergy.client.Client;
-import org.synergy.common.screens.BasicScreen;
 //import org.synergy.common.screens.PlatformIndependentScreen;
 import org.synergy.injection.Injection;
-import org.synergy.net.NetworkAddress;
-import org.synergy.net.SocketFactoryInterface;
-import org.synergy.net.TCPSocketFactory;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.content.Intent;
 
 public class Synergy extends Activity {
 	
@@ -46,35 +37,12 @@ public class Synergy extends Activity {
 	private final static String PROP_serverHost = "serverHost";
 	private final static String PROP_deviceName = "deviceName";
 	
-	private Thread mainLoopThread = null;
 	
 	static {
 		System.loadLibrary ("synergy-jni");
 	}
 	
-	private class MainLoopThread extends Thread {
-		
-		public void run () {
-			try {
-		        Event event = new Event ();
-		        event = EventQueue.getInstance ().getEvent (event, -1.0);
-		        Log.note ("Event grabbed");
-		        while (event.getType () != EventType.QUIT && mainLoopThread == Thread.currentThread()) {
-		            EventQueue.getInstance ().dispatchEvent (event);
-		            // TODO event.deleteData ();
-		            event = EventQueue.getInstance ().getEvent (event, -1.0);
-		            Log.note ("Event grabbed");
-		        } 
-				mainLoopThread = null;
-			} catch (Exception e) {
-				e.printStackTrace ();
-			} finally {
-				Injection.stop();
-			}
-		}
-	}
-	
-	
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,9 +62,12 @@ public class Synergy extends Activity {
         final Button connectButton = (Button) findViewById (R.id.connectButton);    
         connectButton.setOnClickListener (new View.OnClickListener() {
 			public void onClick (View arg) {
-				connect ();
+				dis_connect();
 			}
 		});
+        
+        if(!Servicio.isRunning()) connectButton.setText("Connect");
+        else connectButton.setText("Disconnect");
         
         Log.setLogLevel (Log.Level.INFO);
         
@@ -109,51 +80,44 @@ public class Synergy extends Activity {
 		}
     }
     
-    private void connect () {
+    private void dis_connect() {
     	
-    	String clientName = ((EditText) findViewById (R.id.clientNameEditText)).getText().toString();
-    	String ipAddress = ((EditText) findViewById (R.id.serverHostEditText)).getText().toString();
-    	String portStr = ((EditText) findViewById(R.id.serverPortEditText)).getText().toString();
-    	int port = Integer.parseInt(portStr);
-    	String deviceName = ((EditText) findViewById(R.id.inputDeviceEditText)).getText().toString();
+        String clientName = ((EditText) findViewById (R.id.clientNameEditText)).getText().toString();
+        String ipAddress = ((EditText) findViewById (R.id.serverHostEditText)).getText().toString();
+        String portStr = ((EditText) findViewById(R.id.serverPortEditText)).getText().toString();
+        int port = Integer.parseInt(portStr);
+        String deviceName = ((EditText) findViewById(R.id.inputDeviceEditText)).getText().toString();
     	
-    	SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-    	SharedPreferences.Editor preferencesEditor = preferences.edit();
-    	preferencesEditor.putString(PROP_clientName, clientName);
-    	preferencesEditor.putString(PROP_serverHost, ipAddress);
-    	preferencesEditor.putString(PROP_deviceName, deviceName);
-    	preferencesEditor.commit();
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor preferencesEditor = preferences.edit();
+        preferencesEditor.putString(PROP_clientName, clientName);
+        preferencesEditor.putString(PROP_serverHost, ipAddress);
+        preferencesEditor.putString(PROP_deviceName, deviceName);
+        preferencesEditor.commit();
+
+        Intent in = new Intent(Synergy.this,Servicio.class);
+    	final Button connectButton = (Button) findViewById (R.id.connectButton);
     	
-        try {
-        	SocketFactoryInterface socketFactory = new TCPSocketFactory();
-       	   	NetworkAddress serverAddress = new NetworkAddress (ipAddress, port);
-        	serverAddress.resolve ();
+    	if(!Servicio.isRunning()){
+    		connectButton.setText("Disconnect");
+    		Servicio.clientName=clientName;
+            Servicio.ipAddress=ipAddress;
+            Servicio.port=port;
+            Servicio.deviceName=deviceName;
 
-        	Injection.startInjection(deviceName);
+    		
+            Synergy.this.startService(in);
+    	} else {
+    		// TODO desconectar
+    		connectButton.setText("Connect");
+    		//show_when_locked
+    		
 
-        	BasicScreen basicScreen = new BasicScreen();
-        	
-        	WindowManager wm = getWindowManager();
-        	 
-        	Display display = wm.getDefaultDisplay ();
-        	basicScreen.setShape (display.getWidth (), display.getHeight ());
-        	
-        	
-        	//PlatformIndependentScreen screen = new PlatformIndependentScreen(basicScreen);
-            
-            Log.debug ("Hostname: " + clientName);
-            
-			Client client = new Client (getApplicationContext(), clientName, serverAddress, socketFactory, null, basicScreen);
-			client.connect ();
-
-			if (mainLoopThread == null) {
-				mainLoopThread = new MainLoopThread();
-				mainLoopThread.start();
-			}
-			
-        } catch (Exception e) {
-        	e.printStackTrace();
-        	((EditText) findViewById (R.id.outputEditText)).setText("Connection Failed.");
-        }
+    		
+        	Synergy.this.stopService(in);
+        	System.exit(0);
+		}
+    	
     }
+
 }
