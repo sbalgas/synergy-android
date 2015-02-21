@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="Str_clientNameTextView">Nombre del cliente:</string>
+    <string name="Str_connectButton">Conectar</string>
+    <string name="Str_disconnectButton">Desconectar</string>
+    <string name="Str_inputDeviceTextView">Nombre del dispositivo de entrada:</string>
+    <string name="Str_outputEditTextView">Debug:</string>
+    <string name="Str_serverHostTextView">IP/Hostname del servidor:</string>
+    <string name="Str_serverPortTextView">Puerto:</string>
+
+</resources>
