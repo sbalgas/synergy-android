@@ -18,7 +18,7 @@
                 android:id="@+id/clientNameTextView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombre del cliente:" />
+                android:text="@string/Str_clientNameTextView" />
 
             <EditText
                 android:id="@+id/clientNameEditText"
@@ -31,7 +31,7 @@
                 android:id="@+id/serverHostTextView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="IP/Hostname del servidor:" />
+                android:text="@string/Str_serverHostTextView" />
 
             <EditText
                 android:id="@+id/serverHostEditText"
@@ -44,7 +44,7 @@
                 android:id="@+id/serverPortTextView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Puerto:" />
+                android:text="@string/Str_serverPortTextView" />
 
             <EditText
                 android:id="@+id/serverPortEditText"
@@ -58,7 +58,7 @@
                 android:id="@+id/inputDeviceTextView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombre del dispositivo de entrada:" />
+                android:text="@string/Str_inputDeviceTextView" />
 
             <EditText
                 android:id="@+id/inputDeviceEditText"
@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:text="Conectar" />
+                    android:text="@string/Str_connectButton" />
 
             </RelativeLayout>
 
@@ -111,10 +111,10 @@
                 android:orientation="vertical" >
 				
 				<TextView
-                android:id="@+id/outputEditTextView"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Debug:" />
+				    android:id="@+id/outputEditTextView"
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:text="@string/Str_outputEditTextView" />
 				
                 <EditText
                     android:id="@+id/outputEditText"

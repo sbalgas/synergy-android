@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="Str_clientNameTextView">Synergy Client name:</string>
+    <string name="Str_connectButton">Connect</string>
+    <string name="Str_disconnectButton">Disconnect</string>
+    <string name="Str_inputDeviceTextView">Input device name:</string>
+    <string name="Str_outputEditTextView">Debug:</string>
+    <string name="Str_serverHostTextView">Server IP/Hostname:</string>
+    <string name="Str_serverPortTextView">Server Port:</string>
+
+</resources>
