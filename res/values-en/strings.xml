@@ -7,5 +7,6 @@
     <string name="Str_outputEditTextView">Debug:</string>
     <string name="Str_serverHostTextView">Server IP/Hostname:</string>
     <string name="Str_serverPortTextView">Server Port:</string>
+    <string name="Str_debug_checkbox">Enable debug</string>
 
 </resources>

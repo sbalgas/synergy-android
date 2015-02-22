@@ -21,6 +21,8 @@ package org.synergy.base;
 
 import java.util.ArrayList;
 
+import org.synergy.Synergy;
+
 /**
  * Logging class
  * 
@@ -125,6 +127,15 @@ public class Log {
     }
 
     private void output (final Level level, final String tag, final String message) {
+    	
+    	try{
+    		
+    		Synergy.debug_text(level.toString() + " : " + tag + " : " + message);
+    		
+    	} catch (Exception e){
+    		// posible error?
+    	}
+    	
         for (LogOutputterInterface outputter : alwaysOutputters) {
             outputter.write (level, tag, message);
         }

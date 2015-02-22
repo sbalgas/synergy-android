@@ -10,7 +10,7 @@
     <string name="Str_connectButton">Conectar</string>
     <string name="Str_disconnectButton">Desconectar</string>
     <string name="Str_outputEditTextView">Debug:</string>
-    
+    <string name="Str_debug_checkbox">Habilitar debug</string>
 
     
 </resources>

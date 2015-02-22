@@ -28,7 +28,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.content.Intent;
 
 public class Synergy extends Activity {
@@ -37,6 +41,9 @@ public class Synergy extends Activity {
 	private final static String PROP_serverHost = "serverHost";
 	private final static String PROP_deviceName = "deviceName";
 	
+	private static Boolean DebugMode = false;
+	private static EditText DebugText;
+	LinearLayout Debug_Parent;
 	
 	static {
 		System.loadLibrary ("synergy-jni");
@@ -65,6 +72,29 @@ public class Synergy extends Activity {
 				dis_connect();
 			}
 		});
+        
+        Debug_Parent = (LinearLayout) findViewById(R.id.Debug_Parent_Control);
+        
+        if (DebugMode) Debug_Parent.setVisibility(View.VISIBLE);
+        else Debug_Parent.setVisibility(View.INVISIBLE);
+        
+        CheckBox ed_checkbox = (CheckBox) findViewById (R.id.enable_debug_chekbox);
+        ed_checkbox.setOnCheckedChangeListener( new OnCheckedChangeListener() {
+        	@Override
+        	public void onCheckedChanged( CompoundButton arg0, boolean arg1) {
+        		if (arg1){
+        			DebugMode = true;
+        			Debug_Parent.setVisibility(View.VISIBLE);
+        		}else{
+        			DebugMode = false;
+       				Debug_Parent.setVisibility(View.INVISIBLE);
+        		}
+        	}
+        });
+
+        
+        
+        DebugText = ((EditText) findViewById (R.id.outputEditText));
         
         if(!Servicio.isRunning()) connectButton.setText("Connect");
         else connectButton.setText("Disconnect");
@@ -117,6 +147,13 @@ public class Synergy extends Activity {
         	Synergy.this.stopService(in);
         	System.exit(0);
 		}
+    	
+    }
+    
+    public static void debug_text(String Mensaje){
+    	
+    	if (DebugMode)
+    		DebugText.setText(	DebugText.getText().toString() + Mensaje + " \n " );
     	
     }
 
